@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css">
+<link rel="stylesheet" href="css/sandstone.min.css">
+<link rel="stylesheet" href="css/custom.css">
+
+
+<title>Runescape Scraping</title>
+</head>
+<body class="text-white">
+    <div class="container">
+        <nav class="navbar navbar-expand navbar-dark bg-transparent">
+            <a class="navbar-brand">
+                <i class="fas fa-rocket"></i> 
+            </a>
+        </nav>
+    </div>
+<div class="container">
+    <div class="justify-content-center">
+        <div>
+            <h3 class="text-center font-weight-bold">
+                Runescape scraping and profit analysis
+            </h3>
+            <div class="navbar-brand"></div>
+            <p class="text-center mb-1">
+                Welcome to Runescape. 
+            </p>
+        </div>
+        <div id="cdown" class="col-12 text-center mb-3">
+            <span class="badge badge-primary"></span>
+            <span class="badge badge-primary countdown">60:00</span>
+            <span class="badge badge-primary">minutes!</span>
+        </div>
+        <div>
+            <div id="main" class="card bg-white text-dark">
+                <div class="card-body">
+                    <div>
+                        <table id="main-table" class="table table-hover table-striped table-responsive">
+                            <thead>
+                                <th width="3%">No</th>
+                                <th width="10%">Item id</th>
+                                <th width="20%">Item</th>
+                                <th width="12%">High Alch Value</th>
+                                <th width="12%">Grand Exchange</th>
+                                <th width="12%">Nature Rune Cost</th>
+                                <th width="10%">Profit</th>
+                                <th width="10%">Update Time</th>
+                            </thead>
+                            <tbody id="tbl-content">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="addtext"></div>
+    <div class="col-12">
+        <div class="text-center col-12 pt-2">
+            <small>© 2019 Runescape-Scraping</small>
+            <div><small class="font-weight-bold">Notice of Non-Affiliation and Disclaimer</small></div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script> 
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#main-table').DataTable();
+        setInterval(getAllDate(), 1000*3600);
+        let timer2 = "60:00";
+        let interval = setInterval(function() {
+            let timer = timer2.split(':');
+            let minutes = parseInt(timer[0], 10);
+            let seconds = parseInt(timer[1], 10);
+            --seconds;
+            minutes = (seconds < 0) ? --minutes : minutes;
+            if (minutes < 0) return clearInterval(interval);
+            seconds = (seconds < 0) ? 59 : seconds;
+            seconds = (seconds < 10) ? '0' + seconds : seconds;
+            $('.countdown').html(minutes + ':' + seconds).hide().fadeIn(500);
+            timer2 = minutes + ':' + seconds;
+        }, 1000);
+    });
+
+    function getAllDate()
+      {
+          $.post('action.php', {view: (new Date().getTime() / 1000) }, function(res) {
+            if (res != "") {
+                $('#main-table').DataTable().destroy();
+                $('#tbl-content').html(res);
+                $('#main-table').DataTable();
+            }
+        });
+      } 
+</script>
+</body>
+</html>

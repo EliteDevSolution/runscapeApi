@@ -1,0 +1,26 @@
+body {
+    background: #ff5c8f linear-gradient(to right, rgba(255, 71, 200, 1) 0%, rgba(255, 107, 104, 1) 68%);
+}
+
+.form-control::placeholder {
+    color: #495057;
+    opacity: 1
+}
+
+.container {
+    max-width: 1400px;
+}
+
+#main-table_filter {
+    text-align: right;
+    padding-right: 1vw;
+}
+
+#main-table_length {
+    margin-top: 10px;
+    padding-left: 1vw;
+}
+
+#main {
+    cursor: pointer;
+}
